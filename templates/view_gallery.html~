@@ -1,0 +1,13 @@
+<ion-modal-view title="View - Pictures" name="picture_slide">
+	<ion-header-bar class="bar-positive">
+	<button class="button button-positive" ng-click="closeViewGalleryModal()">
+	Go Back
+	</button>
+	</ion-header-bar>
+	<ion-slide-box on-slide-changed="slideHasChanged($index)">
+		<ion-slide ng-repeat="image in selectedObservation.images">
+		<img class="slideImage" src="{{image.link}}"></img>
+		</ion-slide>
+	</ion-slide-box>
+</ion-modal-view>
+

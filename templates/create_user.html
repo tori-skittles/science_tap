@@ -1,0 +1,31 @@
+<ion-view view-title="Create User" name="create_user">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-positive" ng-click="goBack()">
+		    Go Back
+		</button>
+		<div class="title">Create New Account</div>
+	</ion-header-bar>
+	<ion-view class="bg">
+		<ion-content class="padding">
+		<form name="createUserForm" ng-submit="submitNewUser()">
+		<div class="list">
+			<label for="newUserFirstName" class="item item-input"><span class="input-label">First Name: </span>
+			<input ng-model="$parent.newUserFirstName" type="text"></input>
+			</label>
+			<label for="newUserLastName" class="item item-input"><span class="input-label">Last Name: </span>
+			<input ng-model="$parent.newUserLastName" type="text"></input>
+			</label>
+			<label for="newUserEmail" class="item item-input"><span class="input-label">Email: </span>
+			<input ng-model="$parent.newUserEmail" type="email"></input>
+			</label>
+			<label for="newUserPhone" class="item item-input"><span class="input-label">Phone: </span>
+				<input ng-model="$parent.newUserPhone" type="tel"></input>
+			</label>
+		</div>
+		<input class="button button-block button-royal" type="submit" value="Submit"></input>
+		</form>
+	</ion-content>
+	</ion-view>
+</ion-view>
+
+

@@ -1,0 +1,13 @@
+<ion-modal-view view-title="Collect - Projects" name="collect_projects">
+	<div class="bar bar-header bar-positive">
+		<button class="button button-positive" ng-click="closeProjectModal()">
+		    Go Back
+		</button>
+		<h1 class="title">Projects</h1>
+	</div>
+	<ion-content class="padding has-tabs has-header">
+		<div class="list">
+		<ion-item ng-repeat="project in projects" ng-click="selectProject(project);closeProjectModal()">{{project.name}}</ion-item>
+		</div>
+	</ion-content>
+</ion-modal-view>

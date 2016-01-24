@@ -1,0 +1,56 @@
+<ion-view view-title="home" name="home">
+	<div class="bar bar-header bar-positive">
+		<h1 class="title">Home</h1>
+	</div>
+	<div class="bar bar-stable bar-subheader">
+		<h2 class="title">Welcome {{user.firstName}} </h2>
+	</div>
+<ion-view class="bg">
+	<ion-content class="padding has-subheader has-tabs">
+		<div class="list">
+			<div class="item item-divider">
+			My Account 
+			</div>
+			<ion-item>
+			Name: <span class="item-note">{{user.firstName}} {{user.lastName}}</span>
+			</ion-item>
+			<ion-item>
+			Role: <span class="item-note">{{user.role}}</span>
+			</ion-item>
+			<ion-item>
+			Email: <span class="item-note">{{user.email}}</span>
+			</ion-item>
+			<ion-item>
+			Phone: <span class="item-note">{{user.phone}}</span>
+			</ion-item>
+			<div class="item item-divider">
+			My Projects 
+			</div>
+			<ion-item ng-repeat="project in projects">{{project.name}}</ion-item>
+		</div>
+		<button class="button button-royal button-block" ng-click="logout()">
+		Sign Out
+		</button>
+		<br>
+		<br>
+	</ion-content>
+</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+		<a nav-transition="ios" href="#/map" class="tab-item">
+		<i class="icon ion-map"></i>
+		Map
+		</a>
+		<a nav-transition="ios" href="#/collect" class="tab-item">
+		<i class="icon ion-clipboard"></i>
+		Collect
+		</a>
+		<a nav-transition="ios" href="#/view" class="tab-item">
+		<i class="icon ion-eye"></i>
+		View
+		</a>
+		<a ng-if="isAdmin == 'true'" nav-transition="ios" href="#/admin" class="tab-item">
+		<i class="icon ion-settings"></i>
+		Admin	
+		</a>
+	</div>
+</ion-view>

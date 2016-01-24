@@ -1,0 +1,57 @@
+<ion-view view-title="assign_to_project" name="assign_to_project">
+	<div class="bar bar-header bar-positive">
+		<button class="button button-positive" ng-click="goBack()">
+			Go Back
+		</button>
+		<h1 class="title">Assign Project To Site</h1>
+	</div>
+	<ion-view class="bg">
+	<ion-content class="padding has-subheader has-tabs">
+	<form name="assignToSiteForm" ng-submit="updateSite()">
+		<div class="list card">
+			<div class="item item-divider">Site name: {{create_site.name}}</div>
+			<div class="item">Description: {{create_site.descr}}</div>
+			<div class="item">Latitude: {{create_site.site_lat}}</div>
+			<div class="item">Longitude: {{create_site.site_lon}}</div>
+		</div>
+		
+		<div ng-if="create_site.projects.length > 0" class="list card">
+			<div class="item item-divider">Projects</div>
+			<a ng-repeat="project in create_site.projects" class="item item-button-right" href="#">
+					<strong>{{project.project_name}}</strong>
+					<button ng-if="project.assigned" class="button button-small button-positive" ng-click="unassignProject(project)">Assigned</button>
+					<button ng-show="project.project_id != 0" ng-if="!project.assigned" class="button button-small" ng-click="assignProject(project)">Assign</button>
+			</a>
+		</div>
+		
+		</br>
+		<a nav-transition="ios" href="#/create_project" class="button button-positive button-block">
+		Create A Project
+		</a>
+		
+		</br>
+		<input class="button button-block button-royal" type="submit" value="Update Site"></input>
+		</form>
+		</br>
+		</br>
+	</ion-content>
+	</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+		<a nav-transition="ios" href="#/map" class="tab-item">
+		<i class="icon ion-map"></i>
+		Map
+		</a>
+		<a nav-transition="ios" href="#/collect" class="tab-item">
+		<i class="icon ion-clipboard"></i>
+		Collect
+		</a>
+		<a nav-transition="ios" href="#/view" class="tab-item">
+		<i class="icon ion-eye"></i>
+		View
+		</a>
+		<a nav-transition="ios" href="#/admin" class="tab-item active">
+		<i class="icon ion-settings"></i>
+		Admin	
+		</a>
+	</div>
+</ion-view>

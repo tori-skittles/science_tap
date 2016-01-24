@@ -1,0 +1,13 @@
+<ion-modal-view title="Collect - Forms" name="collect_form"> 
+	<div class="bar bar-header bar-positive">
+		<button class="button button-positive" ng-click="closeFormsModal()">
+		Go Back
+		</button>
+		<h1 class="title">Forms</h1>
+	</div>
+	<ion-content class="padding has-tabs has-header">
+		<div class="list">
+		<ion-item ng-repeat="form in forms" ng-show="selectedProject.id == form.project_id " ng-click="selectForm(form);closeFormsModal()">{{form.name}}</ion-item>
+		</div>
+	</ion-content>
+</ion-modal-view>

@@ -1,0 +1,64 @@
+<ion-view view-title="dmin" name="admin">
+	<div class="bar bar-header bar-positive">
+		<a nav-transition="ios" href="#/home" class="button button-positive">
+			<i class="icon ion-home"></i>
+		</a>
+		<h1 class="title">Admin Functions</h1>
+	</div>
+	<ion-view class="bg">
+	<ion-content class="padding has-subheader has-tabs">
+		<div class="list card">
+			<div class="item item-divider">Project Management</div>
+			<a class="item item-icon-right" href="#/create_project">
+					<strong>Create Project</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+			<a class="item item-icon-right" href="#/edit_project">
+					<strong>Edit Project</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+			<a class="item item-icon-right" href="#/create_site">
+					<strong>Create Site</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+			<a class="item item-icon-right" href="#/edit_site">
+					<strong>Edit Site</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+		</div>
+		<div class="list card">
+			<div class="item item-divider">User Management</div>
+			<a class="item item-icon-right" href="#/create_user_admin">
+					<strong>Create User</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+			<a class="item item-icon-right" href="#/edit_user">
+					<strong>Edit User</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+		</div>
+		<div class="list card">
+			<div class="item item-divider">Form Management</div>
+			<a class="item item-icon-right" href="#/create_form">
+					<strong>Create Form</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+			<a class="item item-icon-right" href="#/edit_form">
+					<strong>Edit Form</strong> <i class="icon ion-chevron-right"></i>
+			</a>
+		</div>
+		<br>
+	</ion-content>
+	</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+		<a nav-transition="ios" href="#/map" class="tab-item">
+		<i class="icon ion-map"></i>
+		Map
+		</a>
+		<a nav-transition="ios" href="#/collect" class="tab-item">
+		<i class="icon ion-clipboard"></i>
+		Collect
+		</a>
+		<a nav-transition="ios" href="#/view" class="tab-item">
+		<i class="icon ion-eye"></i>
+		View
+		</a>
+		<a nav-transition="ios" href="#/admin" class="tab-item active">
+		<i class="icon ion-settings"></i>
+		Admin	
+		</a>
+	</div>
+</ion-view>

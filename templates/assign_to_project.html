@@ -1,0 +1,93 @@
+<ion-view view-title="assign_to_project" name="assign_to_project">
+	<div class="bar bar-header bar-positive">
+		<button class="button button-positive" ng-click="goBack()">
+			Go Back
+		</button>
+		<h1 class="title">Assign To Project</h1>
+	</div>
+	<ion-view class="bg">
+	<ion-content class="padding has-subheader has-tabs">
+	<form name="assignToProjectForm" ng-submit="updateProject()">
+		<div class="list card">
+			<div class="item item-divider">Project name: {{create_project.name}}</div>
+			<div class="item">Description: {{create_project.descr}}</div>
+		</div>
+		
+		<div ng-if="create_project.sites.length > 0" class="list card">
+			<div class="item item-divider">Sites</div>
+			<a ng-repeat="site in create_project.sites" class="item item-button-right" href="#">
+					<strong>{{site.site_name}}</strong>
+					<button ng-if="site.assigned" class="button button-small button-positive" ng-click="unassignSite(site)">Assigned</button>
+					<button ng-show="site.site_id != 0" ng-if="!site.assigned" class="button button-small" ng-click="assignSite(site)">Assign</button>
+			</a>
+		</div>
+		
+		</br>
+		<a nav-transition="ios" href="#/create_site" class="button button-positive button-block">
+		Create A Site
+		</a>
+			
+		<div ng-if="create_project.users.length > 0" class="list card">
+			<div class="item item-divider">Users</div>
+			<a ng-repeat="user in create_project.users" class="item" href="#">
+					<strong>{{user.first_name + " " + user.last_name}}</strong>
+					<span ng-if="user.super_admin == 1">(Super Admin)</span>
+					
+					<div class="btnFltRt">
+					<button ng-if="user.project_admin == true" class="button button-small button-positive" ng-click="unassignProjectAdmin(user)">Project Admin</button>
+					<button ng-if="user.project_admin == false" class="button button-small" ng-click="assignProjectAdmin(user)">Project Admin</button>
+					<button ng-if="user.assigned == true" class="button button-small button-positive"ng-click="unassignUser(user)">Normal User</button>
+					<button ng-if="user.assigned == false" class="button button-small" ng-click="assignUser(user)">Normal User</button>
+					<button ng-if="user.assigned == true" class="button button-small button-assertive" ng-click="unassignUser(user)">Unassign</button>
+					</div>
+			</a>
+		</div>
+		
+		</br>
+		<a nav-transition="ios" href="#/create_user.html" class="button button-positive button-block">
+		Create A User
+		</a>
+		
+		<div ng-if="create_project.forms.length > 0" class="list card">
+			<div class="item item-divider">Forms</div>
+			<a ng-repeat="form in create_project.forms" class="item item-button-right" href="#">
+					<strong>{{form.form_name}}</strong>
+					<button ng-if="form.assigned" class="button button-small button-positive" ng-click="unassignForm(form)">Assigned</button>
+					<button ng-if="!form.assigned" class="button button-small" ng-click="assignForm(form)">Assign</button>
+			</a>
+		</div>
+		
+		</br>
+		<a nav-transition="ios" href="#/create_form.html" class="button button-positive button-block">
+		Create A Form
+		</a>
+		<a nav-transition="ios" href="#/create_form_existing.html" class="button button-positive button-block">
+		Create A Form From Existing
+		</a>
+		
+		</br>
+		<input class="button button-block button-royal" type="submit" value="Update Project"></input>
+		</form>
+		</br>
+		</br>
+	</ion-content>
+	</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+		<a nav-transition="ios" href="#/map" class="tab-item">
+		<i class="icon ion-map"></i>
+		Map
+		</a>
+		<a nav-transition="ios" href="#/collect" class="tab-item">
+		<i class="icon ion-clipboard"></i>
+		Collect
+		</a>
+		<a nav-transition="ios" href="#/view" class="tab-item">
+		<i class="icon ion-eye"></i>
+		View
+		</a>
+		<a nav-transition="ios" href="#/admin" class="tab-item active">
+		<i class="icon ion-settings"></i>
+		Admin	
+		</a>
+	</div>
+</ion-view>

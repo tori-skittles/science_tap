@@ -1,0 +1,73 @@
+<ion-view view-title="Collect" name="collect-view">
+	<div class="bar bar-header bar-positive">
+		<a nav-transition="ios" href="#/home" class="button button-positive">
+		<i class="icon ion-home"></i>
+		</a>
+		<button class="button button-positive" ng-click="refresh()">
+		<i class="icon ion-refresh"></i>
+		</button>
+		<h1 class="title">Collect</h1>
+		<button class="button button-positive" ng-click="getPhoto()">
+		<i class="icon ion-camera"></i>
+		</button>
+	</div>
+	<ion-view class="bg">
+	<ion-content class="has-tabs has-header padding">
+		<form name="mainForm" ng-submit="submitData()">
+		<div class="list card">
+		<a class="item" href="#" ng-click="openProjectModal()">Project<span class="item-note">{{selectedProject.name}}</span></a>
+		<a class="item" href="#" ng-click="openSitesModal()">Site <span class="item-note">{{selectedSite.site_name}}</span></a>
+		<a ng-show="showImagesItem" class="item wrap" href="#" ng-click="openPictureModal()">
+			<img class="thumb" ng-repeat="image in images" src="{{image.fileURI}}"></img>
+		</a>
+		<a class="item" ng-show="projectSelected" href="#" ng-click="openFormsModal()">
+		Form <span class="item-note">{{selectedForm.name}}</span>
+		</a>
+		</div>
+		<div ng-show="formSelected" class="list">
+		<div ng-repeat="field in selectedForm.fields">
+			<div ng-if="field.form_input_type == 'Text'" class="item item-input-inset">
+				<span class="input-label">{{field.name}}</span>
+				<label class="item-input-wrapper">
+					<input ng-model="field.input" type="text"></input>
+				</label>
+			</div>
+			<div ng-if="field.form_input_type == 'Number'" class="item item-input-inset">
+				<span class="input-label">{{field.name}}</span>
+				<label class="item-input-wrapper">
+					<input ng-model="field.input" type="number" step="0.0001"></input>
+				</label>
+			</div>
+			<label ng-if="field.form_input_type == 'CheckBox'" class="item item-checkbox">
+				<span class="input-label">{{field.name}}</span>
+				<label class="checkbox">
+					<input ng-model="field.input" type="checkbox"></input>
+				</label>
+			</label>
+			<a ng-if="field.form_input_type == 'Dropdown'" class="item" href="#" ng-click="getDropdown(field.fieldID);openDropdownModal()">{{field.name}}
+				<span class="item-note"><i ng-show="!field.selected" class="icon ion-chevron-right"></i>{{field.input}}</span>
+			</a>
+		</div>
+		</div>
+		<input class="button button-block button-royal" type="submit" value="Submit"></input>
+		<br>
+		<br>
+		</form>
+	</ion-content>
+	</ion-view>
+
+	<div class="tabs tabs-positive tabs-icon-bottom">
+	<a nav-transition="ios" href="#/map" class="tab-item">
+	<i class="icon ion-map"></i>
+	Map
+	</a>
+	<a nav-transition="ios" href="#/collect" class="tab-item">
+	<i class="icon ion-clipboard"></i>
+	Collect
+	</a>
+	<a nav-transition="ios" href="#/view" class="tab-item">
+	<i class="icon ion-eye"></i>
+	View
+	</a>
+	</div>
+</ion-view>

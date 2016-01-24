@@ -1,0 +1,47 @@
+<ion-view view-title="Create Site" name="create_site">
+	<div class="bar bar-header bar-positive">
+		<button class="button button-positive" ng-click="goBack()">
+			Go Back
+		</button>
+		<h1 class="title">Create A Site</h1>
+	</div>
+	<ion-view class="bg">
+	<ion-content class="padding has-subheader has-tabs">
+		<form name="createProjectForm" ng-submit="createSite()">
+		<div class="list card">
+			<label class="item item-input">
+				<input ng-model="create_site.name" type="text" placeholder="Site Name"></input>
+			</label>
+			<label class="item item-input">
+				<input ng-model="create_site.descr" type="text" placeholder="Site Description"></input>
+			</label>
+			<label class="item item-input">
+				<input ng-model="create_site.site_lat" type="number" step="0.0001" placeholder="39.9821"></input>
+			</label>
+			<label class="item item-input">
+				<input ng-model="create_site.site_lon" type="number" step="0.0001" placeholder="-75.0816"></input>
+			</label>
+		</div>
+		<input class="button button-block button-royal" type="submit" value="Create Site"></input>
+		</form>
+	</ion-content>
+	</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+		<a nav-transition="ios" href="#/map" class="tab-item">
+		<i class="icon ion-map"></i>
+		Map
+		</a>
+		<a nav-transition="ios" href="#/collect" class="tab-item">
+		<i class="icon ion-clipboard"></i>
+		Collect
+		</a>
+		<a nav-transition="ios" href="#/view" class="tab-item">
+		<i class="icon ion-eye"></i>
+		View
+		</a>
+		<a nav-transition="ios" href="#/admin" class="tab-item active">
+		<i class="icon ion-settings"></i>
+		Admin	
+		</a>
+	</div>
+</ion-view>
