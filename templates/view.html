@@ -1,50 +1,13 @@
-<ion-view view-title="View" name="view">
-	<div class="bar bar-header bar-positive">
-		<a nav-transition="ios" href="#/home" class="button button-positive">
-			<i class="icon ion-home"></i>
-		</a>
-		<div class="title">View</div>
-	</div>
-	<ion-view class="bg">
-		<ion-content class="padding has-header has-tabs">
-		<div class="list">
-			<div class="item item-divider">
-				Select Observations	
-			</div>
-			<ion-item ng-click="getObservationsByMe()"> Uploaded By Me 
-			<span class="item-note"><i ng-show="!projectSelected" class="icon ion-checkmark"></i></span>
-			</ion-item>
-			<ion-item ng-click="openViewProjectsModal()"> By Project <span class="item-note">{{selectedProject.name}}</ion-item>
+<ion-view view-title="view" name="view">
+	<ion-header-bar align-title="center" class="bar-dark">
+  		<div class="buttons">
+  			<button ng-click="getProjectInfo()" class="button icon ion-information"></button>
 		</div>
-		<div class="list card">
-			<a ng-repeat="observationObject in observationObjects" class="item" href="#" ng-click="setObservationObject(observationObject);openObservationModal()">
-	<p>Project: {{observationObject.projectName}}</p>
-	<p>Site: {{observationObject.siteName}}</p>
-	<p>Form: {{observationObject.formName}}</p>
-	<p>Images: {{observationObject.images.length}}</p>
-	<p>Time Created : {{observationObject.time}}</p>
-	</a>
-		</div>
-		<br>
-		<br>
-		</ion-content>
-	</ion-view>
-	<div class="tabs tabs-positive tabs-icon-bottom">
-	<a nav-transition="ios" href="#/map" class="tab-item">
-	<i class="icon ion-map"></i>
-	Map
-	</a>
-	<a nav-transition="ios" href="#/collect" class="tab-item">
-	<i class="icon ion-clipboard"></i>
-	Collect
-	</a>
-	<a nav-transition="ios" href="#/view" class="tab-item">
-	<i class="icon ion-eye"></i>
-	View
-	</a>
-	<a ng-if="isAdmin == 'true'" nav-transition="ios" href="#/admin" class="tab-item">
-	<i class="icon ion-settings"></i>
-	Admin	
-	</a>
-	</div>
-</ion-view>
+  		<h1 class="title">{{project.name}}</h1>
+		<div class="buttons" style="padding-right: 10px;">
+    			<button class="button icon ion-log-out" ng-click="logout()"></button>
+ 		</div>
+</ion-header-bar>
+
+
+

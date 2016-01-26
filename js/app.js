@@ -987,12 +987,21 @@ app.controller('CollectCtrl', function($scope, $ionicPopup, $state, $cordovaGeol
 	});
 });
 
-app.controller('ViewCtrl', function($scope){
+app.controller('ViewCtrl', function($scope, $ionicPopup, $state, $cordovaGeolocation, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicSlideBoxDelegate, $ionicLoading, $ionicScrollDelegate, projectService){
+
 	console.log('View Controller');
+	$scope.isAdmin = window.localStorage.getItem("admin");
+	$scope.logout = function(){
+		window.localStorage.removeItem('loggedInUser');
+                $state.go('login');
+	}
+	
+	var project = projectService.getCurrentProject();
+	console.log("CURRENT PROJECT: ", project);
 
 });
 
-app.controller('HomeCtrl', function($scope, $ionicPopup, $state, $cordovaGeolocation, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicSlideBoxDelegate, Camera, LoginService, $ionicLoading, $ionicScrollDelegate){
+app.controller('HomeCtrl', function($scope, $ionicPopup, $state, $cordovaGeolocation, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicSlideBoxDelegate, Camera, LoginService, projectService, $ionicLoading, $ionicScrollDelegate){
 	$scope.user = {};
 	$scope.user.firstName = window.localStorage.getItem("firstName");
 	$scope.user.role = window.localStorage.getItem("role");
@@ -1007,40 +1016,15 @@ app.controller('HomeCtrl', function($scope, $ionicPopup, $state, $cordovaGeoloca
 		window.localStorage.removeItem('loggedInUser');
 		$state.go('login');
 	}
-	var request = $http({
-	    method: "post",
-	    url: 'http://sciencetap.us/ionic/getHomeData.php',
-	    data:{
-		userId: $scope.user.id
-	    }
-	});
-	request.success(function(data){
-		if (data.Status == 'Success'){
-			console.log("In Home");
-			console.log(data);
-			console.log("Home projects");
-			console.log(data.projects);
-			console.log("Home role");
-			console.log(data.role);
-			window.localStorage.setItem("role", data.role);
-			for(var i = 0; i < data.projects.length; i++){
-				$scope.projects.push(
-				{
-				    name: data.projects[i].name,
-				    id: data.projects[i].id
-				}
-				);
-			}
-		}
-	});
-	request.error(function(){
-		console.log("error in Home AJAX");
+
+	projectService.loadProjects().then(function( response ){
+		console.log("PROJECT DATA: ", response.data);
+		$scope.projects = response.data.projects; 
 	});
 
 	//will navigate to new view and load selected project
 	$scope.selectProject = function( project_uid ){
-		console.log("Hey there selected a project: ", project_uid);
-		$scope.current_project_uid = project_uid;		
+		projectService.setCurrentProject( project_uid );
 		$state.go('view');
 	}
 	
@@ -1131,6 +1115,60 @@ app.directive('compareStrings', function(){
 
 	};
 }); 
+
+app.service('projectService', function( $http ) {
+  
+	var projects = [];
+	var projects_indexed = [];
+	var current_project = null;
+
+  	var addProject = function(newObj) {
+  	    project.push(newObj);
+  	};
+
+  	var loadProjects = function(){
+		return $http.get("http://sciencetap.us/ionic/getProjects.php").then(function(response){
+			data = response.data;
+			projects = data.data.projects;
+			projects_indexed = data.data.projects_indexed;
+			return data;
+		});
+	};
+	
+	var getProjects = function(){
+		return projects;
+	};
+
+	var setCurrentProject = function(project_uid){
+		current_project = projects_indexed[project_uid];
+	};
+	
+	var getCurrentProject = function(){
+		return current_project;	
+	};
+
+  	return {
+  		addProject: addProject,
+		loadProjects: loadProjects,
+   		getProjects: getProjects,
+		setCurrentProject: setCurrentProject,
+		getCurrentProject: getCurrentProject
+  	};
+
+});
+
+app.factory('Projects', function($http){
+	var data = [];
+	return{
+		getProject: function(){
+			return $http.get("http://sciencetap.us/ionic/getProjects.php").then(function(response){
+				data = response;
+				return data;
+			});
+		}
+	}
+
+})
 
 app.factory('Markers', function($http){
 	var markers = [];
