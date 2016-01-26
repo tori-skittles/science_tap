@@ -1,0 +1,278 @@
+
+
+	var app = angular.module('ionicApp', ['ionic', 'ngCordova'])
+
+        app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider){
+        
+		//disable caching
+		$ionicConfigProvider.views.maxCache(0);
+		
+		//define states
+		$stateProvider
+			.state('home',{
+				url: '/home',
+				templateUrl: 'templates/home.html',
+				controller: 'HomeCtrl'
+			})
+
+		$urlRouterProvider.otherwise('/login')
+		window.localStorage.setItem("admin", "false");
+
+		if(ionic.Platform.isWindowsPhone() || ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
+			setTimeout(function(){
+				navigator.splashscreen.hide();
+			}, 1000);
+			console.log("Is cordova, admin false");
+			console.log(window.localStorage.getItem("admin"));
+		}else{
+			console.log("Is browser, admin true");
+			window.localStorage.setItem("admin", "true");
+			console.log(window.localStorage.getItem("admin"));
+		}
+
+		})
+
+	app.run(function($ionicPlatform, $state) {
+
+			$ionicPlatform.ready(function() {
+				if(window.cordova && window.cordova.plugins.Keyboard) {
+                             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                        }
+                        if(window.StatusBar) {
+                             StatusBar.styleDefault();
+                        }
+                        var loggedInUser = window.localStorage.getItem('loggedInUser');
+                        if(loggedInUser != null){
+                                $state.go('home');
+                        }
+                });
+        })
+
+	app.controller('LoginCtrl', function($scope, $ionicPopup, $state, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, LoginService, $ionicScrollDelegate){
+        $scope.data = {};
+        $scope.newUserFirstName = '';
+        $scope.newUserLastName = '';
+        $scope.newUserEmail = '';
+        $scope.newUserPhone = '';
+        $scope.resetEmail = '';
+        $scope.loginDisabled = false;
+
+        $scope.showSpinner = function(){
+                $ionicLoading.show({
+                        template: '<ion-spinner icon="spiral"></ion-spinner>'
+                });
+        };
+
+        $scope.hideSpinner = function(){ $ionicLoading.hide(); };
+        $scope.scrollTop = function(){ $ionicScrollDelegate.scrollTop(); };
+        $scope.createUser = function(){ $state.go('create_user'); }
+        $scope.openResetPassword = function(){ $state.go('reset_password'); }
+
+        $scope.login = function(){
+                LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data){
+                        $scope.showSpinner();
+                        $scope.loginDisabled = true;
+                        var request = $http({
+                            method: "post",
+                            url: 'http://sciencetap.us/ionic/login.php',
+                            data:{
+                                emailLogin: $scope.data.username,
+                                passLogin: $scope.data.password
+                            }
+                        });
+                        request.success(function(data){
+                                if (data.Status == 'Success'){
+                                        window.localStorage.setItem("userId", data.userId);
+                                        window.localStorage.setItem("firstName", data.firstName);
+                                        window.localStorage.setItem("lastName", data.lastName);
+                                        window.localStorage.setItem("email", data.email);
+                                        window.localStorage.setItem("phone", data.phone);
+                                        if(data.superAdmin === undefined){
+						if(data.projectAdmin === undefined){
+                                                        window.localStorage.setItem("role", 'projectUser');
+                                                }else{
+                                                        window.localStorage.setItem("role", 'projectAdmin');
+                                                }
+                                        }else{
+                                                window.localStorage.setItem("role", 'superAdmin');
+                                        }
+                                        if(data.Message === undefined){
+                                                window.localStorage.setItem("message", '');
+                                        }else{
+                                                window.localStorage.setItem("message", data.Message);
+                                        }
+                                        window.localStorage.setItem('loggedInUser', true);
+                                        $scope.hideSpinner();
+                                        $scope.loginDisabled = false;
+                                        $scope.data.password = '';
+                                        $state.go('home');
+                                }else{
+                                        $scope.data.password = '';
+                                        $scope.hideSpinner();
+                                        var alertPopup = $ionicPopup.alert({
+                                            title: 'Login failed',
+                                            template: 'Please check your credentials'
+                                        });
+                                        $scope.loginDisabled = false;
+                                }
+                        });
+                        request.error(function(){
+                                $scope.data.password = '';
+                                $scope.hideSpinner();
+                                $scope.loginDisabled = false;
+                        });
+                }).error(function(){
+                        $scope.data.password = '';
+                        $scope.hideSpinner();
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Login failed',
+                            template: 'Please check your credentials'
+                        });
+                        $scope.loginDisabled = false;
+                });
+        }
+	var mainPopup = function(title, message){
+                var popup = $ionicPopup.alert({
+                        title: title,
+                        template: message
+                });
+                popup.then(function(res){ 
+                        console.log("main popup closed");
+                });
+        };
+
+        $scope.resetPassword = function(){
+                $scope.showSpinner();
+                console.log($scope.resetEmail);
+                if($scope.resetEmail == ""){
+                        $scope.hideSpinner();
+                        mainPopup('A required field was not entered','');
+                        return;
+                }
+                var uploadData = {
+                        email : $scope.resetEmail
+                };
+                var request = $http({
+                    method: "post",
+                    url: 'http://sciencetap.us/ionic/resetPassword.php',
+                    data:{
+                        uploadData: uploadData
+                    }
+                });
+                request.success(function(data){
+                        console.log(data);
+                        if(data.Status == 'Success'){
+                                setTimeout(function(){
+                                        $scope.hideSpinner();
+                                        mainPopup('Data Submitted Successfully','An email has been sent with the new password');
+                                }, 1000);
+                                $state.go('login');
+                        }else{
+                                setTimeout(function(){
+                                        $scope.hideSpinner();
+                                        mainPopup('Data Not Submitted Successfully', 'No Sciencetap account has been created with that email address');
+                                }, 1000);
+                                $state.go('login');
+                        }
+                });
+                request.error(function(data){
+                        console.log(data);
+			setTimeout(function(){
+                                $scope.hideSpinner();
+                                mainPopup('Data Not Submitted Successfully', 'No Sciencetap account has been created with that email address');
+                        }, 1000);
+                        $state.go('login');
+                });
+        }
+        $scope.submitNewUser = function(){
+                $scope.showSpinner();
+                console.log($scope.newUserFirstName);
+                console.log($scope.newUserLastName);
+                console.log($scope.newUserEmail);
+                if($scope.newUserFirstName == "" || $scope.newUserLastName == "" || $scope.newUserEmail == ""){
+                        $scope.hideSpinner(); 
+                        mainPopup('A required field was not entered','');
+                        return;
+                }
+                var uploadData = { 
+                        first_name : $scope.newUserFirstName,
+                        last_name : $scope.newUserLastName,
+                        email : $scope.newUserEmail,
+                        phone : $scope.newUserPhone
+                };
+                var request = $http({
+                    method: "post",
+                    url: 'http://sciencetap.us/ionic/createNewUser.php',
+                    data:{
+                        uploadData: uploadData
+                    }
+                });
+                request.success(function(data){
+                        console.log(data);
+                        setTimeout(function(){
+                                $scope.hideSpinner();
+                                mainPopup('Data Submitted Successfully','A request has been put in to create the account.  You will be notified via email when the account is created');      
+                        }, 1000);
+                        $state.go('login');
+                });
+                request.error(function(data){
+                        console.log(data);
+                        setTimeout(function(){
+                                $scope.hideSpinner();
+                                mainPopup('Data Not Submitted Successfully', 'The request could not be processed at this time');
+                        }, 1000);
+                        $state.go('login');
+                });
+        }
+});
+
+	app.controller('HomeCtrl', function($scope, $ionicPopup, $state, $cordovaGeolocation, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicSlideBoxDelegate, Camera, LoginService, $ionicLoading, $ionicScrollDelegate){
+                $scope.user = {};
+                $scope.user.firstName = window.localStorage.getItem("firstName");
+                $scope.user.role = window.localStorage.getItem("role");
+                $scope.user.email = window.localStorage.getItem("email");
+                $scope.user.phone = window.localStorage.getItem("phone");
+                $scope.user.id = window.localStorage.getItem("userId");
+                $scope.user.lastName = window.localStorage.getItem("lastName");
+                $scope.projects = [];
+                $scope.isAdmin = window.localStorage.getItem("admin");
+
+                $scope.logout = function(){
+                        window.localStorage.removeItem('loggedInUser');
+                        $state.go('login');
+                }
+                var request = $http({
+                    method: "post",
+                    url: 'http://sciencetap.us/ionic/getHomeData.php',
+                    data:{
+                        userId: $scope.user.id
+                    }
+                });
+                request.success(function(data){
+                        if (data.Status == 'Success'){
+                                console.log("In Home");
+                                console.log(data);
+                                console.log("Home projects");
+                                console.log(data.projects);
+                                console.log("Home role");
+                                console.log(data.role);
+                                window.localStorage.setItem("role", data.role);
+                                for(var i = 0; i < data.projects.length; i++){
+                                        $scope.projects.push(
+                                        {
+                                            name: data.projects[i].name,
+                                            id: data.projects[i].id
+                                        }
+                                        );
+                                }
+                        }
+                });
+                request.error(function(){
+                        console.log("error in Home AJAX");
+                });
+
+        });
+
+
+
+

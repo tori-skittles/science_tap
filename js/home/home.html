@@ -1,0 +1,26 @@
+<ion-view view-title="home" name="home">
+        <ion-header-bar align-title="center" class="bar-dark">
+                <div class="buttons">
+                </div>
+                <h1 class="title">{{user.firstName}}'s Projects</h1>
+                <div class="buttons" style="padding-right: 10px;">
+                        <button class="button icon ion-information"></button>
+                </div>
+</ion-header-bar>
+        <ion-view class="bg">
+                <ion-content class="">
+                <div class="scrollable">
+                        <div class="scrollable-content">
+                                <ion-item ng-repeat="project in projects">{{project.name}}</ion-item>
+                        </div>
+                </div>
+                </ion-content>
+        </ion-view>
+
+        <div class="tabs tabs-dark tabs-icon-bottom">
+                <a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
+                <a nav-transition="ios" href="#/collect" class="tab-item"><i class="icon ion-clipboard"></i>Collect</a>
+                <a ng-if="isAdmin == 'true'" nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Admin</a>
+        </div>
+
+</ion-view>

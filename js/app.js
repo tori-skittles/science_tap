@@ -1,8 +1,8 @@
 var app = angular.module('ionicApp', ['ionic', 'ngCordova'])
 
-app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider){
+	app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider){
 	//disable caching
-	//$ionicConfigProvider.views.maxCache(0);
+	$ionicConfigProvider.views.maxCache(0);
 	$stateProvider
 		.state('login',{
 			url: '/login',
@@ -37,7 +37,7 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider){
 		})
 		.state('reset_password',{
 			url: '/reset_password',
-			templateUrl: 'templates/reset_password.html',
+		templateUrl: 'templates/reset_password.html',
 			controller: 'LoginCtrl'
 		})
 		.state('admin',{
@@ -68,121 +68,103 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider){
 	$urlRouterProvider.otherwise('/login')
 	
 	window.localStorage.setItem("admin", "false");
-	console.log("Platform");
-	console.log(ionic.Platform.platform());
-	console.log("Device");
-	console.log(ionic.Platform.device());
-	console.log("IPad");
-	console.log(ionic.Platform.isIPad());
-	console.log("IOS");
-	console.log(ionic.Platform.isIOS());
-	console.log("android");
-	console.log(ionic.Platform.isAndroid());
-	console.log("windows");
-	console.log(ionic.Platform.isWindowsPhone());
-	console.log("isWebView");
-	console.log(ionic.Platform.isWebView());
 	
 	if(ionic.Platform.isWindowsPhone() || ionic.Platform.isAndroid() || ionic.Platform.isIOS()){
 		setTimeout(function(){
 			navigator.splashscreen.hide();
 		}, 1000);
-		console.log("Is cordova, admin false");
-		console.log(window.localStorage.getItem("admin"));
 	}else{
-		console.log("Is browser, admin true");
 		window.localStorage.setItem("admin", "true");
-		console.log(window.localStorage.getItem("admin"));
 	}
 	
 })
 
-app.run(function($ionicPlatform, $state) {
+	app.run(function($ionicPlatform, $state) {
 
-	$ionicPlatform.ready(function() {
-		if(window.cordova && window.cordova.plugins.Keyboard) {
-		     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-		}
-		if(window.StatusBar) {
-		     StatusBar.styleDefault();
-		}
-		var loggedInUser = window.localStorage.getItem('loggedInUser');
-		if(loggedInUser != null){
-			$state.go('home');	
-		}
-	});
-})
+		$ionicPlatform.ready(function() {
+			if(window.cordova && window.cordova.plugins.Keyboard) {
+			     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+			}
+			if(window.StatusBar) {
+			     StatusBar.styleDefault();
+			}
+			var loggedInUser = window.localStorage.getItem('loggedInUser');
+			if(loggedInUser != null){
+				$state.go('home');	
+			}
+		});
+	})
 
-app.controller('CreateProjectCtrl', function($scope, $ionicPopup, $state, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicScrollDelegate, createProjectService){
+	app.controller('CreateProjectCtrl', function($scope, $ionicPopup, $state, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicScrollDelegate, createProjectService){
 
-	console.log("In CreateProjectCtrl");
-	$scope.create_project = {};
-	$scope.user = {};
-	$scope.user.id = window.localStorage.getItem("userId");
+		console.log("In CreateProjectCtrl");
+		$scope.create_project = {};
+		$scope.user = {};
+		$scope.user.id = window.localStorage.getItem("userId");
 	
-	$scope.showSpinner = function(){
-		$ionicLoading.show({
-			template: '<ion-spinner icon="spiral"></ion-spinner>'
-		});
-	};
-	$scope.goBack = function(){ $state.go('admin'); }
-
-	$scope.hideSpinner = function(){ $ionicLoading.hide(); };
-
-	$scope.createProject = function(){
-		
-		$scope.showSpinner();
-		console.log("New Project's Name");
-		console.log($scope.create_project.name);
-		createProjectService.addProjectName($scope.create_project.name);
-		
-		console.log("New Project's Description");
-		console.log($scope.create_project.descr);
-		createProjectService.addProjectDescr($scope.create_project.descr);
-		
-		var uploadData = {
-			project_name: $scope.create_project.name,
-			project_descr: $scope.create_project.descr,
-			user_id: $scope.user.id
+		$scope.showSpinner = function(){
+			$ionicLoading.show({
+				template: '<ion-spinner icon="spiral"></ion-spinner>'
+			});
 		};
-		var request = $http({
-			method: "post",
-			url: 'http://sciencetap.us/ionic/createProject.php',
-			data:{ uploadData: uploadData }
-		});
-		request.success(function(data){
-			console.log("All Data");
-			console.log(data);
+		$scope.goBack = function(){ $state.go('admin'); }
 
-			console.log("Project Name");
-			console.log($scope.create_project.name );
-			
-			console.log("Project ID");
-			createProjectService.addProjectId(data.project_id);
-			console.log(data.project_id);
-			
-			console.log("Sites");
-			console.log(data.unassigned_sites);
-			createProjectService.addProjectSites(data.unassigned_sites);
-			
-			console.log("Forms");
-			console.log(data.forms);
-			createProjectService.addProjectForms(data.forms);
-			
-			console.log("Users");
-			console.log(data.users);
-			createProjectService.addProjectUsers(data.users);
+		$scope.hideSpinner = function(){ $ionicLoading.hide(); };
 
-			$scope.hideSpinner();
-			$state.go('assign_to_project');
-		});
-		request.error(function(data){
-			$scope.hideSpinner();
-			console.log("Error creating project");
-			console.log(data);
-		});
-	};
-});
+		$scope.createProject = function(){
+			
+			$scope.showSpinner();
+			console.log("New Project's Name");
+			console.log($scope.create_project.name);
+			createProjectService.addProjectName($scope.create_project.name);
+			
+			console.log("New Project's Description");
+			console.log($scope.create_project.descr);
+			createProjectService.addProjectDescr($scope.create_project.descr);
+			
+			var uploadData = {
+				project_name: $scope.create_project.name,
+				project_descr: $scope.create_project.descr,
+				user_id: $scope.user.id
+			};
+			var request = $http({
+				method: "post",
+				url: 'http://sciencetap.us/ionic/createProject.php',
+				data:{ uploadData: uploadData }
+			});
+			request.success(function(data){
+				console.log("All Data");
+				console.log(data);
+
+				console.log("Project Name");
+				console.log($scope.create_project.name );
+				
+				console.log("Project ID");
+				createProjectService.addProjectId(data.project_id);
+				console.log(data.project_id);
+				
+				console.log("Sites");
+				console.log(data.unassigned_sites);
+				createProjectService.addProjectSites(data.unassigned_sites);
+				
+				console.log("Forms");
+				console.log(data.forms);
+				createProjectService.addProjectForms(data.forms);
+				
+				console.log("Users");
+				console.log(data.users);
+				createProjectService.addProjectUsers(data.users);
+
+				$scope.hideSpinner();
+				$state.go('assign_to_project');
+			});
+			request.error(function(data){
+				$scope.hideSpinner();
+				console.log("Error creating project");
+				console.log(data);
+			});
+		};
+	});
 
 app.controller('AssignToProjectCtrl', function($scope, $ionicPopup, $state, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicScrollDelegate, createProjectService){
 	
@@ -1005,505 +987,8 @@ app.controller('CollectCtrl', function($scope, $ionicPopup, $state, $cordovaGeol
 	});
 });
 
-app.controller('ViewCtrl', function($scope, $ionicPopup, $state, $cordovaGeolocation, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicSlideBoxDelegate, $ionicLoading, $ionicScrollDelegate){
-	$scope.user = {};
-	$scope.user.id = window.localStorage.getItem("userId");
-	$scope.projects = [];
-	$scope.sites = [];
-	$scope.forms = [];
-	$scope.form_inputs= [];
-	$scope.observations = [];
-	$scope.observationData = [];
-	$scope.observationObjects = [];
-	$scope.data = [];
-	$scope.images = [];
-	var reset = function(){
-		$scope.projects = [];
-		$scope.sites = [];
-		$scope.forms = [];
-		$scope.form_inputs= [];
-		$scope.observations = [];
-		$scope.observationData = [];
-		$scope.observationObjects = [];
-		$scope.data = [];
-		$scope.images = [];
-	}
-	$scope.projectSelected = false;
-	var noProject = { name: 'None', id: 0 };
-	$scope.selectedProject = noProject;
-	$scope.observationObjects.push({
-		projectName : 'None',
-		siteName : 'None',
-		formName : 'None',
-		time : 'None' 
-	});
-	$scope.observationObjects[0].images = [];
-	$scope.customFilters = [
-		{"name" : "My Uploads", "id" : "1"}, {"name" : "My Projects", "id" : "2"}
-	];
-	$scope.isAdmin = window.localStorage.getItem("admin");
-	
-	$scope.showSpinner = function(){
-		$ionicLoading.show({
-			template: '<ion-spinner icon="spiral"></ion-spinner>'
-		});
-	};
-	$scope.hideSpinner = function(){ $ionicLoading.hide(); };
-	$scope.selectCustomFilter = function(){ return 0; }
-	$scope.goBack = function(){ $ionicHistory.goBack(); }
-
-	var buildObservationObject = function(){
-		for(i = 0; i < $scope.observations.length; i++){
-			var projectName = '';
-			var siteName = '';
-			var formName = '';
-			var data = [];
-			var images = [];
-			var formInputs = [];
-			var lat = $scope.observations[i].lat;
-			var lng = $scope.observations[i].lng;
-			var time = $scope.observations[i].observation_time_created;
-			for(j = 0; j < $scope.projects.length; j++){
-				if($scope.observations[i].project_id == $scope.projects[j].id){
-					projectName = $scope.projects[j].name;
-				}
-			}
-			for(j = 0; j < $scope.sites.length; j++){
-				if($scope.observations[i].site_id == $scope.sites[j].site_id){
-					siteName = $scope.sites[j].site_name;
-				}
-			}
-			for(j = 0; j < $scope.forms.length; j++){
-				if($scope.observations[i].form_id == $scope.forms[j].id){
-					formName = $scope.forms[j].name;
-				}
-			}
-			for(j = 0; j < $scope.observationData.length; j++){
-				if($scope.observations[i].observation_id == $scope.observationData[j].observation_id){
-					data.push($scope.observationData[j]);
-				}
-			}
-			for(j = 0; j < $scope.images.length; j++){
-				if($scope.observations[i].observation_id == $scope.images[j].observation_id){
-					images.push($scope.images[j]);
-				}
-			}
-			$scope.observationObjects.push({
-				projectName : projectName,
-				siteName : siteName,
-				formName : formName,
-				data : data,
-				images : images,
-				lat : lat,
-				lng : lng,
-				time : time
-			});
-		}
-		console.log($scope.observationObjects);
-	};
-	$scope.selectedObservation = '';
-	$scope.setObservationObject = function(obj){
-		$scope.selectedObservation = obj;
-	}
-
-	$ionicModal.fromTemplateUrl('templates/view_observation.html', {
-		scope: $scope,
-		animation: 'slide-in-up',
-		observationObject : $scope.selectedObservation
-	}).then(function(modal) {
-		$scope.observationModal = modal;
-	});
-	$scope.openObservationModal = function() { $scope.observationModal.show(); };
-	$scope.closeObservationModal = function() { $scope.observationModal.hide(); };
-
-
-	$ionicModal.fromTemplateUrl('templates/view_projects.html', {
-		scope: $scope,
-		animation: 'slide-in-up',
-		dropdowns: $scope.projects
-	}).then(function(modal) {
-	   $scope.viewProjectsModal = modal;
-	});
-	$scope.openViewProjectsModal = function() { $scope.viewProjectsModal.show(); };
-	$scope.closeViewProjectsModal = function() { $scope.viewProjectsModal.hide(); };
-
-	$ionicModal.fromTemplateUrl('templates/view_gallery.html', {
-		scope: $scope,
-		animation: 'slide-in-up'
-	}).then(function(modal) {
-		$scope.viewGalleryModal= modal;
-	});
-               
-	$scope.openViewGalleryModal= function() {
-		$ionicSlideBoxDelegate.slide(0);
-		$scope.viewGalleryModal.show();
-	};
-	$scope.closeViewGalleryModal= function() { $scope.viewGalleryModal.hide(); };
-
-       $scope.$on('$destroy', function() {
-		  $scope.observationModal.remove();
-		  $scope.viewProjectsModal.remove();
-		  $scope.viewGalleryModal.remove();
-	});
-       
-	$scope.$on('modal.hidden', function() { });
-	$scope.$on('modal.removed', function() { });
-
-	$scope.getObservationsByProject = function(project){
-	       $scope.selectedProject = project;
-	       $scope.projectSelected = true;
-		console.log("View - Select Project Observations");
-		console.log($scope.selectedProject);
-		reset();
-		$scope.showSpinner();
-		var request = $http({
-		    method: "post",
-		    url: 'http://sciencetap.us/ionic/getViewProjectData.php',
-		    data:{
-			userId: $scope.user.id,
-			projectId : $scope.selectedProject.id
-		    }
-		});
-		request.success(function(data){
-			console.log("Get Observations By Project - All Data");
-			console.log(data);
-			if (data.Status == 'Success'){
-				for(var i = 0; i < data.projects.length; i++){
-					$scope.projects.push(
-					{
-						name: data.projects[i].name,
-						id: data.projects[i].id
-					}
-					);
-				}
-				for(var i = 0; i < data.sites.length; i++){
-					$scope.sites.push(
-					{
-					    site_name: data.sites[i].site_name,
-					    site_id: data.sites[i].site_id,
-					    project_id: data.sites[i].project_id
-					}
-					);
-				}
-				for(var i = 0; i < data.forms.length; i++){
-					$scope.forms.push(
-					{
-						name:  data.forms[i].form_name,
-						id: data.forms[i].form_id,
-						description: data.forms[i].form_description,
-						project_id: data.forms[i].project_id,
-						fields: []
-					}
-					);
-				}
-				for(i = 0; i < data.form_inputs.length; i++){
-					$scope.form_inputs.push(
-					{
-					    name: data.form_inputs[i].form_input_name,
-					    fieldID: data.form_inputs[i].form_input_id,
-					    formID: data.form_inputs[i].form_id,
-						input: '',
-						form_input_type: data.form_inputs[i].form_input_type
-					}
-					);
-				}
-				for(i = 0; i < $scope.form_inputs.length; i++){
-				    for(var j = 0; j < $scope.forms.length; j++){
-					if($scope.forms[j].id == $scope.form_inputs[i].formID){
-					    $scope.forms[j].fields.push($scope.form_inputs[i]);
-					}
-				    }
-				}
-				for(var i = 0; i < data.observations.length; i++){
-					$scope.observations.push(
-					{
-					    observation_id : data.observations[i].observation_id,
-					    form_id : data.observations[i].form_id,
-					    site_id : data.observations[i].site_id,
-					    project_id : data.observations[i].project_id,
-					    lat : data.observations[i].lat,
-					    lng : data.observations[i].lng,
-					    observation_time_created: data.observations[i].observation_time_created,
-					    user_id : data.observations[i].user_id
-					}
-					);
-				}
-				for(var i = 0; i < data.data.length; i++){
-					$scope.data.push(
-					{
-					    data_id : data.data[i].data_id,
-					    form_input_id : data.data[i].form_input_id,
-					    data_value : data.data[i].data_value,
-					    observation_id : data.data[i].observation_id
-					}
-					);
-				}
-				for(var i = 0; i < data.images.length; i++){
-					$scope.images.push(
-					{
-					    image_id : data.images[i].image_id,
-					    link : 'http://sciencetap.us/' + data.images[i].link,
-					    image_name: data.images[i].image_name,
-					    observation_id : data.images[i].observation_id
-					}
-					);
-				}
-				for(var i = 0; i < $scope.data.length; i++){
-					var field = '';
-					for(var j = 0; j < $scope.form_inputs.length; j++){
-						if($scope.data[i].form_input_id == $scope.form_inputs[j].fieldID){
-							field = $scope.form_inputs[j].name;
-						}
-					}
-					$scope.observationData.push({
-						field : field,
-						value : $scope.data[i].data_value,
-						observation_id : $scope.data[i].observation_id
-					});	
-				}
-				buildObservationObject();
-				$scope.hideSpinner();
-			}
-		});
-		request.error( function(){
-				console.log("View Error");
-				$scope.hideSpinner();
-		});
-	}
-
-	$scope.getObservationsByMe = function(){
-		reset();
-		$scope.selectedProject = noProject;
-		console.log("View - Select Uploaded By Me");
-		$scope.projectSelected = false;
-		$scope.showSpinner();
-		var request = $http({
-		    method: "post",
-		    url: 'http://sciencetap.us/ionic/getViewData.php',
-		    data:{
-			userId: $scope.user.id
-		    }
-		});
-		request.success(function(data){
-			console.log("Get Observations By Me - All Data");
-			console.log(data);
-			if (data.Status == 'Success'){
-				for(var i = 0; i < data.projects.length; i++){
-					$scope.projects.push(
-					{
-						name: data.projects[i].name,
-						id: data.projects[i].id
-					}
-					);
-				}
-				for(var i = 0; i < data.sites.length; i++){
-					$scope.sites.push(
-					{
-					    site_name: data.sites[i].site_name,
-					    site_id: data.sites[i].site_id,
-					    project_id: data.sites[i].project_id
-					}
-					);
-				}
-				for(var i = 0; i < data.forms.length; i++){
-					$scope.forms.push(
-					{
-						name:  data.forms[i].form_name,
-						id: data.forms[i].form_id,
-						description: data.forms[i].form_description,
-						project_id: data.forms[i].project_id,
-						fields: []
-					}
-					);
-				}
-				for(i = 0; i < data.form_inputs.length; i++){
-					$scope.form_inputs.push(
-					{
-					    name: data.form_inputs[i].form_input_name,
-					    fieldID: data.form_inputs[i].form_input_id,
-					    formID: data.form_inputs[i].form_id,
-						input: '',
-						form_input_type: data.form_inputs[i].form_input_type
-					}
-					);
-				}
-				for(i = 0; i < $scope.form_inputs.length; i++){
-				    for(var j = 0; j < $scope.forms.length; j++){
-					if($scope.forms[j].id == $scope.form_inputs[i].formID){
-					    $scope.forms[j].fields.push($scope.form_inputs[i]);
-					}
-				    }
-				}
-				for(var i = 0; i < data.observations.length; i++){
-					$scope.observations.push(
-					{
-					    observation_id : data.observations[i].observation_id,
-					    form_id : data.observations[i].form_id,
-					    site_id : data.observations[i].site_id,
-					    project_id : data.observations[i].project_id,
-					    lat : data.observations[i].lat,
-					    lng : data.observations[i].lng,
-					    observation_time_created: data.observations[i].observation_time_created,
-					    user_id : data.observations[i].user_id
-					}
-					);
-				}
-				for(var i = 0; i < data.data.length; i++){
-					$scope.data.push(
-					{
-					    data_id : data.data[i].data_id,
-					    form_input_id : data.data[i].form_input_id,
-					    data_value : data.data[i].data_value,
-					    observation_id : data.data[i].observation_id
-					}
-					);
-				}
-				for(var i = 0; i < data.images.length; i++){
-					$scope.images.push(
-					{
-					    image_id : data.images[i].image_id,
-					    link : 'http://sciencetap.us/' + data.images[i].link,
-					    image_name: data.images[i].image_name,
-					    observation_id : data.images[i].observation_id
-					}
-					);
-				}
-				for(var i = 0; i < $scope.data.length; i++){
-					var field = '';
-					for(var j = 0; j < $scope.form_inputs.length; j++){
-						if($scope.data[i].form_input_id == $scope.form_inputs[j].fieldID){
-							field = $scope.form_inputs[j].name;
-						}
-					}
-					$scope.observationData.push({
-						field : field,
-						value : $scope.data[i].data_value,
-						observation_id : $scope.data[i].observation_id
-					});	
-				}
-				buildObservationObject();
-				$scope.hideSpinner();
-			}
-		});
-		request.error( function(){
-				console.log("View Error");
-				$scope.hideSpinner();
-		});
-	}
-
-	var request = $http({
-	    method: "post",
-	    url: 'http://sciencetap.us/ionic/getViewData.php',
-	    data:{
-		userId: $scope.user.id
-	    }
-	});
-	$scope.showSpinner();
-	request.success(function(data){
-		$scope.observationObjects = [];
-		console.log(data);
-		if (data.Status == 'Success'){
-			for(var i = 0; i < data.projects.length; i++){
-				$scope.projects.push(
-				{
-					name: data.projects[i].name,
-					id: data.projects[i].id
-				}
-				);
-			}
-			for(var i = 0; i < data.sites.length; i++){
-				$scope.sites.push(
-				{
-				    site_name: data.sites[i].site_name,
-				    site_id: data.sites[i].site_id,
-				    project_id: data.sites[i].project_id
-				}
-				);
-			}
-			for(var i = 0; i < data.forms.length; i++){
-				$scope.forms.push(
-				{
-					name:  data.forms[i].form_name,
-					id: data.forms[i].form_id,
-					description: data.forms[i].form_description,
-					project_id: data.forms[i].project_id,
-					fields: []
-				}
-				);
-			}
-			for(i = 0; i < data.form_inputs.length; i++){
-				$scope.form_inputs.push(
-				{
-				    name: data.form_inputs[i].form_input_name,
-				    fieldID: data.form_inputs[i].form_input_id,
-				    formID: data.form_inputs[i].form_id,
-					input: '',
-					form_input_type: data.form_inputs[i].form_input_type
-				}
-				);
-			}
-			for(i = 0; i < $scope.form_inputs.length; i++){
-			    for(var j = 0; j < $scope.forms.length; j++){
-				if($scope.forms[j].id == $scope.form_inputs[i].formID){
-				    $scope.forms[j].fields.push($scope.form_inputs[i]);
-				}
-			    }
-			}
-			for(var i = 0; i < data.observations.length; i++){
-				$scope.observations.push(
-				{
-				    observation_id : data.observations[i].observation_id,
-				    form_id : data.observations[i].form_id,
-				    site_id : data.observations[i].site_id,
-				    project_id : data.observations[i].project_id,
-				    lat : data.observations[i].lat,
-				    lng : data.observations[i].lng,
-				    observation_time_created: data.observations[i].observation_time_created,
-				    user_id : data.observations[i].user_id
-				}
-				);
-			}
-			for(var i = 0; i < data.data.length; i++){
-				$scope.data.push(
-				{
-				    data_id : data.data[i].data_id,
-				    form_input_id : data.data[i].form_input_id,
-				    data_value : data.data[i].data_value,
-				    observation_id : data.data[i].observation_id
-				}
-				);
-			}
-			for(var i = 0; i < data.images.length; i++){
-				$scope.images.push(
-				{
-				    image_id : data.images[i].image_id,
-				    link : 'http://sciencetap.us/' + data.images[i].link,
-				    image_name: data.images[i].image_name,
-				    observation_id : data.images[i].observation_id
-				}
-				);
-			}
-			for(var i = 0; i < $scope.data.length; i++){
-				var field = '';
-				for(var j = 0; j < $scope.form_inputs.length; j++){
-					if($scope.data[i].form_input_id == $scope.form_inputs[j].fieldID){
-						field = $scope.form_inputs[j].name;
-					}
-				}
-				$scope.observationData.push({
-					field : field,
-					value : $scope.data[i].data_value,
-					observation_id : $scope.data[i].observation_id
-				});	
-			}
-			buildObservationObject();
-			$scope.hideSpinner();
-		}
-	});
-	request.error( function(){
-			console.log("View Error");
-			$scope.hideSpinner();
-	});
+app.controller('ViewCtrl', function($scope){
+	console.log('View Controller');
 
 });
 
@@ -1550,6 +1035,32 @@ app.controller('HomeCtrl', function($scope, $ionicPopup, $state, $cordovaGeoloca
 	});
 	request.error(function(){
 		console.log("error in Home AJAX");
+	});
+
+	//will navigate to new view and load selected project
+	$scope.selectProject = function( project_uid ){
+		console.log("Hey there selected a project: ", project_uid);
+		$scope.current_project_uid = project_uid;		
+		$state.go('view');
+	}
+	
+	$ionicModal.fromTemplateUrl('home-info.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	}).then(function(modal) {
+	    $scope.modal = modal
+	})  
+
+	$scope.getHomeInfo = function() {
+   		$scope.modal.show()
+  	}
+	
+	$scope.closeModal = function() {
+	    $scope.modal.hide();
+	};
+
+	$scope.$on('$destroy', function() {
+	    $scope.modal.remove();
 	});
 
 });
