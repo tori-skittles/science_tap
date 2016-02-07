@@ -1,9 +1,9 @@
 <ion-view view-title="view" name="view">
 	<ion-header-bar align-title="center" class="bar-dark">
   		<div class="buttons">
-  			<button ng-click="getProjectInfo()" class="button icon ion-information"></button>
+  			<button ng-click="getSiteInfo()" class="button icon ion-information"></button>
 		</div>
-  		<h1 class="title">{{project.name}}</h1>
+  		<h1 class="title">{{site.name}}</h1>
 		<div class="buttons" style="padding-right: 10px;">
     			<button class="button icon ion-log-out" ng-click="logout()"></button>
  		</div>
@@ -11,24 +11,25 @@
 
 	<ion-content>
 		<div class="list list-inset">
-			<div class="item item-divider">{{project.name }} Information:
+			<div class="item item-divider">{{site.name }} Information:
 			</div>
-			<div class="item"><b>Description: </b>{{project.description}}</div>
-			<div class="item"><b>Created at: </b>{{project.created_at}}</div>
+			<div class="item"><b>Location: </b>{{site.lat}} , {{site.lon}}</div>
+			<div class="item"><b>Created at: </b>{{site.created_at}}</div>
 		</div>	
 		<div class="list list-inset">
-			<div class="item item-divider">Sites
-				<span class="item-note">( {{project.sites.length}} )</span>
+			<div class="item item-divider">Forms
+				<span class="item-note">( {{forms.length}} )</span>
 			</div>
-			<ion-item ng-repeat="site in project.sites" ng-click="selectProjectSite({{site}})" class="item-icon-right">{{site.name}}
-				<span class="item-note">{{site.lat}} , {{site.lon}}</span>
+			<ion-item ng-repeat="form in forms" ng-click="selectForm({{form}})" class="item-icon-right">{{form.name}}
 				<i class="icon ion-chevron-right icon-accessory"></i>
 			</ion-item>
 
 		</div>
-		<div style="padding: 10px">
-			<button class="button button-block button-royal" ng-show=isAdmin ng-click="addSite({{project.id}})">Add Site</button>
+		<div style="padding: 10px;">	
+			<button ng-show=isAdmin ng-click="addForm({{site.id}})" class="button button-block button-royal">Add Form</button>
 		</div>
+		
+
 	</ion-content>
 	<div class="tabs tabs-dark tabs-icon-bottom">
 		<a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
@@ -37,14 +38,14 @@
 	</div>
 </ion-view>
 
-<script id="project-info.html" type="text/ng-template">
+<script id="site-info.html" type="text/ng-template">
   <div class="modal">
         <ion-header-bar>
                 <h1 class="title">ScienceTap Project View</h1>
         </ion-header-bar>
         <ion-content>
                 <div style="padding: 10px; text-align: center;">
-                	You are currently viewing a Project you are participating in.<br>  Tapping or Clicking a Site from the Site list will allow you to collect data at a particular Site
+			You are viewing a Project Site.<br>Tapping or clicking a Form from the form list will allow you to input and submit data to a form.
 		</div>
                 <button class="button button-full button-dark" ng-click="closeModal()">Got it!</button>
         </ion-content>

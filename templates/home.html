@@ -1,27 +1,20 @@
 
 <ion-view view-title="home" name="home">
 	<ion-header-bar align-title="center" class="bar-dark">
-  		<div class="buttons">
-  			<button ng-click="getHomeInfo()" class="button icon ion-information"></button>
-		</div>
   		<h1 class="title">{{user.firstName}}'s Projects</h1>
-		<div class="buttons" style="padding-right: 10px;">
-    			<button class="button icon ion-log-out" ng-click="logout()"></button>
- 		</div>
-</ion-header-bar>
-	<ion-view class="bg">
-		<ion-content class="">
+		<button ng-click="getHomeInfo()" class="button icon ion-information"></button>
+		<button class="button icon ion-log-out" ng-click="logout()"></button>
+	</ion-header-bar>
+	<ion-content>
 		<div class="list">
 			<ion-item ng-repeat="project in projects" ng-click="selectProject({{project.id}})" class="item-icon-right">{{project.name}}
 				<i class="icon ion-chevron-right icon-accessory"></i>
 			</ion-item>
 		</div>
-		</ion-content>
-	</ion-view>
-	
+	</ion-content>
 	<div class="tabs tabs-dark tabs-icon-bottom">
 		<a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
-		<a nav-transition="ios" href="#/collect" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
+		<a nav-transition="ios" href="#/home" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
 		<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>
 	</div>
 
