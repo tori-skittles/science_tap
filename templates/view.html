@@ -1,39 +1,37 @@
 <ion-view view-title="view" name="view">
 	<ion-header-bar align-title="center" class="bar-dark">
-  		<div class="buttons">
-  			<button ng-click="getProjectInfo()" class="button icon ion-information"></button>
-		</div>
+  		<!--<button ng-click="getProjectInfo()" class="button icon ion-information"></button>-->
+		<button ng-click="back()" class="button icon ion-chevron-left"></button>
   		<h1 class="title">{{project.name}}</h1>
-		<div class="buttons" style="padding-right: 10px;">
-    			<button class="button icon ion-log-out" ng-click="logout()"></button>
- 		</div>
+		<button class="button icon" ng-show="isAdmin" ng-class="{'icon ion-checkmark': isAdminView, 'icon ion-edit': !isAdminView}" ng-click="adminView()"></button>
 	</ion-header-bar>
 
 	<ion-content>
 		<div class="list list-inset">
-			<div class="item item-divider">{{project.name }} Information:
+			<div class="item item-divider">Information:
 			</div>
 			<div class="item"><b>Description: </b>{{project.description}}</div>
 			<div class="item"><b>Created at: </b>{{project.created_at}}</div>
-		</div>	
+		</div>
+			
 		<div class="list list-inset">
 			<div class="item item-divider">Sites
 				<span class="item-note">( {{project.sites.length}} )</span>
 			</div>
-			<ion-item ng-repeat="site in project.sites" ng-click="selectProjectSite({{site}})" class="item-icon-right">{{site.name}}
+			<ion-item ng-repeat="site in project.sites" ng-click="selectProjectSite({{site}}, $index)" class="item-icon-right">{{site.name}}
 				<span class="item-note">{{site.lat}} , {{site.lon}}</span>
-				<i class="icon ion-chevron-right icon-accessory"></i>
+				<i ng-class="{'icon ion-close icon-accessory': isAdminView, 'icon ion-chevron-right icon-accessory': !isAdminView}"></i>
 			</ion-item>
 
 		</div>
 		<div style="padding: 10px">
-			<button class="button button-block button-royal" ng-show=isAdmin ng-click="addSite({{project.id}})">Add Site</button>
+			<button class="button button-block button-royal" ng-show=isAdminView ng-click="addSite({{project.id}})">Add Site</button>
 		</div>
 	</ion-content>
 	<div class="tabs tabs-dark tabs-icon-bottom">
 		<a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
 		<a nav-transition="ios" href="#/home" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
-		<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>
+	<!--	<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>-->
 	</div>
 </ion-view>
 

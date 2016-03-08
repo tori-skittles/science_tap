@@ -1,0 +1,53 @@
+
+<ion-view view-title="projAdmin" name="projAdmin" animation="no-animation">
+	<ion-header-bar align-title="center" class="bar-dark">
+		<h1 class="title">{{project.name}}</h1>
+		<button ng-click="rmProject()" class="button icon ion-trash-b"></button>	
+	</ion-header-bar>
+	<ion-content>
+		<div class="list list-inset">
+                        <div class="item item-divider item-icon-right" ng-click="addSite({{project.id}})">Sites<i class="icon ion-plus icon-accessory"></i></div>
+                        <ion-item ng-repeat="site in sites" ng-click="rmProjectSite({{site}}, $index)" class="item-icon-right">{{site.name}}
+                                <i class="icon ion-close icon-accessory"></i>
+                        </ion-item>
+                </div>
+
+		<div class="list list-inset">
+			<div class="item item-divider item-icon-right" ng-click="addForm({{project}})">Forms<i class="icon ion-plus icon-accessory"></i></div>
+			<ion-item ng-repeat="form in forms" ng-click="rmProjectForm({{form}}, $index)" class="item-icon-right">{{form.name}}
+				<i class="icon ion-close icon-accessory"></i>
+			</ion-item>
+		</div>
+		
+		<div class="list list-inset">
+                        <div class="item item-divider item-icon-right" ng-click="addUsers({{project}})">Users<i class="icon ion-plus icon-accessory"></i></div>
+                        <ion-item ng-repeat="user in users" ng-click="rmProjectFromUser({{user}}, $index)" class="item-icon-right">{{user.first_name}} {{user.last_name}}
+                                <i class="icon ion-close icon-accessory"></i>
+                        </ion-item>
+                </div>
+	</ion-content>
+	<div class="bar bar-footer bar-dark">
+	  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close"></i></button>
+	  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark"></i></button>
+	</div>
+</ion-view>
+
+
+
+<script id="you_sure.html" type="text/ng-template">
+  <div class="modal">
+        <ion-header-bar>
+                <h1 class="title">Confirm Project Delete</h1>
+        </ion-header-bar>
+        <ion-content>
+                <div style="padding: 10px; text-align: center;">
+                	Are you sure you want to delete this project? </br>
+			This action can only be undone by a database administrator.
+		</div>
+  	</ion-content>
+        <div class="bar bar-footer bar-dark">
+          <button class="button button-clear" ng-click="cancelDelete()"><i class="icon ion-close"></i></button>
+          <button class="button button-clear" ng-click="confirmDelete()"><i class="icon ion-checkmark"></i></button>
+        </div>  	
+  </div>
+</script>

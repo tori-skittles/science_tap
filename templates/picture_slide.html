@@ -1,12 +1,4 @@
-<ion-modal-view title="Collect - Pictures" name="picture_slide">
-	<div class="bar bar-header bar-positive">
-		<button class="button button-positive" ng-click="closePictureModal()">
-		Go Back
-		</button>
-		<button class="button button-positive" ng-click="removeImage();closePictureModal()">
-		Delete
-		</button>
-	</div>
+<ion-modal-view title="{{ project.name }} Pictures" name="picture_slide">
 	<ion-slide-box on-slide-changed="slideHasChanged($index)">
 		<ion-slide ng-repeat="image in images">
 		<img class="slideImage" src="{{image.fileURI}}"></img>

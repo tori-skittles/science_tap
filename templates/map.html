@@ -1,21 +1,22 @@
 <ion-view view-title="Sciencetap - Map" name="Map">
-	<ion-view>
-		<ion-content>
-		    <div id="map" data-tap-disabled="true"></div>
-		</ion-content>
-	</ion-view>
-	<div class="tabs tabs-positive tabs-icon-bottom">
-	<a nav-transition="ios" href="#/map" class="tab-item">
-	<i class="icon ion-map"></i>
-	Map
-	</a>
-	<a nav-transition="ios" href="#/collect" class="tab-item">
-	<i class="icon ion-clipboard"></i>
-	Collect
-	</a>
-	<a nav-transition="ios" href="#/view" class="tab-item">
-	<i class="icon ion-eye"></i>
-	View
-	</a>
-	</div>
+	<ion-header-bar align-title="center" class="bar-dark">
+                <h1 class="title">{{form.name}}</h1>
+                <div class="buttons" style="padding-right: 10px;">
+                        <button class="button icon ion-log-out" ng-click="logout()"></button>
+                </div>
+        </ion-header-bar>
+	<ion-content>
+	<!--    <div id="map"></div>-->
+		<div id="map" ui-map="myMap" class="map-canvas" 
+       ui-event="{'map-tilesloaded': 'maploaded()'}"
+       ui-options="mapOptions">
+</div>
+<div ng-repeat="marker in markers" ui-map-marker="markers[$index]"
+         ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+ </div>
+
+	</ion-content>
+	<div class="tabs tabs-dark tabs-icon-bottom">
+                <a nav-transition="ios" href="#/home" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
+        </div>
 </ion-view>

@@ -3,19 +3,23 @@
 	<ion-header-bar align-title="center" class="bar-dark">
   		<h1 class="title">{{user.firstName}}'s Projects</h1>
 		<button ng-click="getHomeInfo()" class="button icon ion-information"></button>
-		<button class="button icon ion-log-out" ng-click="logout()"></button>
+		<button class="button icon" ng-show="isAdmin"  ng-class="{'icon ion-checkmark': isAdminView, 'icon ion-edit': !isAdminView}" ng-click="adminView()"></button>
 	</ion-header-bar>
 	<ion-content>
 		<div class="list">
-			<ion-item ng-repeat="project in projects" ng-click="selectProject({{project.id}})" class="item-icon-right">{{project.name}}
-				<i class="icon ion-chevron-right icon-accessory"></i>
+			<ion-item ngShow=isRegView ng-repeat="project in projects" ng-click="selectProject({{project.id}})" class="item-icon-right">{{project.name}}
+				<i ng-class="{'icon ion-edit icon-accessory': isAdminView, 'icon ion-chevron-right icon-accessory': !isAdminView}"></i>
 			</ion-item>
-		</div>
+                </div>
+
+		<div style="padding: 10px">
+                        <button class="button button-block button-royal" ng-show=isAdminView ng-click="createProject()">Create Project</button>
+                </div>	
+
 	</ion-content>
 	<div class="tabs tabs-dark tabs-icon-bottom">
 		<a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
-		<a nav-transition="ios" href="#/home" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
-		<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>
+	<!--	<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>-->
 	</div>
 
 </ion-view>

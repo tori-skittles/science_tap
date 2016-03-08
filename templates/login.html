@@ -1,20 +1,16 @@
 <ion-view view-title="Login" name="login-view">
   <ion-content class="padding login">
-	<img src="img/login_logo.png" id="loginLogo"/>
-      <div class="list list-inset">
+	<center>
+		<img src="img/login_logo.png" id="loginLogo"/>
+        </center>
+	<div class="list list-inset">
           <label class="item item-input">
 		  <input type="email" placeholder="Email" ng-model="data.username"></input>
           </label>
           <label class="item item-input">
 		  <input type="password" placeholder="Password" ng-model="data.password"></input>
           </label>
-      </div>
-      <button class="button button-block button-calm" ng-click="login()" ng-disabled="loginDisabled">Login</button>
-	<button class="button button-royal button-block" ng-click="openResetPassword()">
-		Forgot Password?
-	</button>
-	<button class="button button-royal button-block" ng-click="createUser()">
-		Create Account
-	</button>
+      	</div>
+      	<button class="button button-block button-dark" ng-click="login()" ng-disabled="loginDisabled">Login</button>
   </ion-content>
 </ion-view>
