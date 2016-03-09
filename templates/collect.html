@@ -4,10 +4,7 @@
   		<!--	<button ng-click="getFormInfo()" class="button icon ion-information"></button>-->
 			<button ng-click="back()" class="button icon ion-chevron-left"></button>
 		</div>
-  		<h1 class="title">{{form.name}}</h1>
-		<div class="buttons" style="padding-right: 10px;">
-    			<button class="button icon ion-log-out" ng-click="logout()"></button>
- 		</div>
+  		<h1 class="title">{{form.name}}<span style="padding-left: 10px; font-size: 24px;"><i class="icon ion-eye"></i></span></h1>
 	</ion-header-bar>
 
 	<ion-content>
@@ -62,21 +59,17 @@
 				</div>
 			</div>
 
-		<div style="padding: 10px;">
-                        <button ng-click="submitForm()" class="button button-block button-balanced">Submit</button>
-                </div>
-
 		<div style="padding: 10px;">	
 			<button ng-show=isAdmin ng-click="addField({{form.id}})" class="button button-block button-royal">Add Field</button>
 		</div>
 		
 
 	</ion-content>
-	<div class="tabs tabs-dark tabs-icon-bottom">
-		<a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
-		<a nav-transition="ios" href="#/home" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
-<!--		<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>-->
-	</div>
+	<div class="bar bar-footer bar-dark">
+          <button class="button button-clear" ng-click="cancelSubmitForm()"><i class="icon ion-close assertive"></i></button>
+          <button class="button button-clear" ng-click="submitForm()"><i class="icon ion-checkmark balanced"></i></button>
+        </div>
+
 </ion-view>
 
 <script id="site-info.html" type="text/ng-template">

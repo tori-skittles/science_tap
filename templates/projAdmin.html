@@ -2,33 +2,38 @@
 <ion-view view-title="projAdmin" name="projAdmin" animation="no-animation">
 	<ion-header-bar align-title="center" class="bar-dark">
 		<h1 class="title">{{project.name}}</h1>
-		<button ng-click="rmProject()" class="button icon ion-trash-b"></button>	
+		<button ng-click="rmProject()" class="button icon ion-trash-b red_me"></button>	
 	</ion-header-bar>
 	<ion-content>
 		<div class="list list-inset">
-                        <div class="item item-divider item-icon-right" ng-click="addSite({{project.id}})">Sites<i class="icon ion-plus icon-accessory"></i></div>
-                        <ion-item ng-repeat="site in sites" ng-click="rmProjectSite({{site}}, $index)" class="item-icon-right">{{site.name}}
-                                <i class="icon ion-close icon-accessory"></i>
-                        </ion-item>
+                        <div class="item item-divider item-icon-right" ng-click="addSite({{project.id}})">Sites<i class="icon ion-plus icon-accessory green_me"></i></div>
+                        <ion-item ng-repeat="site in sites" ng-click="rmProjectSite({{site}}, $index)" ng-switch on="site.status" class="item-icon-right">{{site.name}}
+				<i ng-switch-when="add" class="icon ion-close icon-accessory balanced green_me"></i>
+                                <i ng-switch-when="delete" class="icon ion-close icon-accessory assertive red_me"></i>
+                                <i ng-switch-default class="icon ion-close icon-accessory"></i>
+			</ion-item>
                 </div>
 
 		<div class="list list-inset">
-			<div class="item item-divider item-icon-right" ng-click="addForm({{project}})">Forms<i class="icon ion-plus icon-accessory"></i></div>
-			<ion-item ng-repeat="form in forms" ng-click="rmProjectForm({{form}}, $index)" class="item-icon-right">{{form.name}}
-				<i class="icon ion-close icon-accessory"></i>
-			</ion-item>
+			<div class="item item-divider item-icon-right" ng-click="addForm({{project}})">Forms<i class="icon ion-plus icon-accessory green_me"></i></div>
+			<ion-item ng-repeat="form in forms" ng-click="rmProjectForm({{form}}, $index)" ng-switch on="form.status" class="item-icon-right">{{form.name}}
+				<i ng-switch-when="add" class="icon ion-close icon-accessory balanced green_me"></i>
+                                <i ng-switch-when="delete" class="icon ion-close icon-accessory assertive red_me"></i>
+                                <i ng-switch-default class="icon ion-close icon-accessory"></i></ion-item>
 		</div>
 		
 		<div class="list list-inset">
-                        <div class="item item-divider item-icon-right" ng-click="addUsers({{project}})">Users<i class="icon ion-plus icon-accessory"></i></div>
-                        <ion-item ng-repeat="user in users" ng-click="rmProjectFromUser({{user}}, $index)" class="item-icon-right">{{user.first_name}} {{user.last_name}}
-                                <i class="icon ion-close icon-accessory"></i>
-                        </ion-item>
+                        <div class="item item-divider item-icon-right" ng-click="addUsers({{project}})">Users<i class="icon ion-plus icon-accessory green_me"></i></div>
+                        <ion-item ng-repeat="user in users" ng-switch on="user.status" ng-click="rmProjectFromUser({{user}}, $index)" class="item-icon-right">{{user.first_name}} {{user.last_name}}
+                                <i ng-switch-when="add" class="icon ion-close icon-accessory balanced green_me"></i>
+                                <i ng-switch-when="delete" class="icon ion-close icon-accessory assertive red_me"></i>
+                                <i ng-switch-default class="icon ion-close icon-accessory"></i>
+			</ion-item>
                 </div>
 	</ion-content>
 	<div class="bar bar-footer bar-dark">
-	  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close"></i></button>
-	  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark"></i></button>
+	  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close assertive"></i></button>
+	  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark balanced"></i></button>
 	</div>
 </ion-view>
 

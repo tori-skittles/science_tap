@@ -1,12 +1,9 @@
 <ion-view view-title="view" name="view">
         <ion-header-bar align-title="center" class="bar-dark">
                 <div class="buttons">
-                        <button ng-click="getCreateFormInfo()" class="button icon ion-information"></button>
+                        <button ng-click="back()" class="button icon ion-chevron-left"></button>
                 </div>
-                <h1 class="title">{{current_project.name}} Users</h1>
-                <div class="buttons" style="padding-right: 10px;">
-                        <button class="button icon ion-log-out" ng-click="logout()"></button>
-                </div>
+		<h1 class="title">{{current_project.name}} Users</h1>
         </ion-header-bar>
 
         <ion-content>
@@ -21,8 +18,8 @@
 
 	</ion-content>
         <div class="bar bar-footer bar-dark">
-          <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close"></i></button>
-          <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark"></i></button>
+          <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close red_me"></i></button>
+          <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark green_me"></i></button>
         </div>
 </ion-view>
 

@@ -2,8 +2,8 @@
 	<ion-header-bar align-title="center" class="bar-dark">
   		<!--<button ng-click="getProjectInfo()" class="button icon ion-information"></button>-->
 		<button ng-click="back()" class="button icon ion-chevron-left"></button>
-  		<h1 class="title">{{project.name}}</h1>
-		<button class="button icon" ng-show="isAdmin" ng-class="{'icon ion-checkmark': isAdminView, 'icon ion-edit': !isAdminView}" ng-click="adminView()"></button>
+  		<h1 class="title">{{project.name}}<span style="padding-left: 10px; font-size: 24px;"><i class="icon ion-star"></i></h1>
+		<button class="button icon" ng-show="isAdmin" ng-class="{'icon ion-checkmark green_me': isAdminView, 'icon ion-edit yellow_me': !isAdminView}" ng-click="adminView()"></button>
 	</ion-header-bar>
 
 	<ion-content>
@@ -31,7 +31,8 @@
 	<div class="tabs tabs-dark tabs-icon-bottom">
 		<a nav-transition="ios" href="#/map" class="tab-item"><i class="icon ion-map"></i>Map</a>
 		<a nav-transition="ios" href="#/home" class="tab-item"><i class="icon ion-clipboard"></i>Projects</a>
-	<!--	<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>-->
+		<a nav-transition="ios" href="#/login" class="tab-item" ng-click="logout()"><i class="icon ion-log-out"></i>Logout</a>	
+		<!--	<a nav-transition="ios" href="#/admin" class="tab-item"><i class="icon ion-settings"></i>Manager</a>-->
 	</div>
 </ion-view>
 
