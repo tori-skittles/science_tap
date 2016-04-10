@@ -9,17 +9,19 @@
         <ion-content>
 		<div class="list list-inset">
 			<div class="item item-divider">Select Existing</div>
-			<ion-checkbox ng-repeat="user in allUsers" ng-model="user.checked" ng-checked="user.checked">{{user.first_name}} {{ user.last_name }}</ion-checkbox>
+			<ion-checkbox ng-repeat="user in allUsers" ng-model="user.checked" ng-checked="user.checked" class="item">{{user.first_name}} {{ user.last_name }}<i ng-show="user.super_admin == 1" class=""> ( Admin ) </i></ion-checkbox>
 		</div>
-		<div style="padding: 10px">
+		<div style="padding-top: 10px; padding-right: 10px; padding-left: 10px;">
                         <button class="button button-block button-royal" ng-click="createUser()">Register User</button>
                 </div>	
 	
 	</ion-content>
-        <div class="bar bar-footer bar-dark">
-          <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close red_me"></i></button>
-          <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark green_me"></i></button>
-        </div>
+	<ion-footer-bar>
+		<div class="bar bar-footer bar-dark">
+		  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close red_me"></i></button>
+		  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark green_me"></i></button>
+		</div>
+	</ion-footer-bar>
 </ion-view>
 
 

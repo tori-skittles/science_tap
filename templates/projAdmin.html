@@ -2,7 +2,7 @@
 <ion-view view-title="projAdmin" name="projAdmin" animation="no-animation">
 	<ion-header-bar align-title="center" class="bar-dark">
 		<h1 class="title">{{project.name}}</h1>
-		<button ng-click="rmProject()" class="button icon ion-trash-b red_me"></button>	
+		<button ng-click="rmProject()" class="button icon ion-trash-b" style="color: #ef473a"></button>	
 	</ion-header-bar>
 	<ion-content>
 		<div class="list list-inset">
@@ -24,17 +24,19 @@
 		
 		<div class="list list-inset">
                         <div class="item item-divider item-icon-right" ng-click="addUsers({{project}})">Users<i class="icon ion-plus icon-accessory green_me"></i></div>
-                        <ion-item ng-repeat="user in users" ng-switch on="user.status" ng-click="rmProjectFromUser({{user}}, $index)" class="item-icon-right">{{user.first_name}} {{user.last_name}}
+                        <ion-item ng-repeat="user in users" ng-switch on="user.status" ng-click="rmProjectFromUser({{user}}, $index)" class="item item-icon-right">{{user.first_name}} {{user.last_name}}<i ng-show="user.super_admin == 1"> ( Admin ) </i>
                                 <i ng-switch-when="add" class="icon ion-close icon-accessory balanced green_me"></i>
                                 <i ng-switch-when="delete" class="icon ion-close icon-accessory assertive red_me"></i>
                                 <i ng-switch-default class="icon ion-close icon-accessory"></i>
 			</ion-item>
                 </div>
 	</ion-content>
-	<div class="bar bar-footer bar-dark">
-	  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close assertive"></i></button>
-	  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark balanced"></i></button>
-	</div>
+	<ion-footer-bar>
+		<div class="bar bar-footer bar-dark">
+		  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close assertive"></i></button>
+		  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark balanced"></i></button>
+		</div>
+	</ion-footer-bar>
 </ion-view>
 
 

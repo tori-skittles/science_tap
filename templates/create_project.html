@@ -3,16 +3,14 @@
                 <h1 class="title">Create Project</h1>
         </ion-header-bar>
 	<ion-content>
-		<form name="createProjectForm">
-		<div class="list card">
-			<label class="item item-input">
-				<input ng-model="create_project.name" type="text" placeholder="Project Name"></input>
-			</label>
-			<label class="item item-input">
-				<input ng-model="create_project.descr" type="text" placeholder="Project Description"></input>
-			</label>
-		</div>
-		</form>
+	<div class="list card">
+		<label class="item item-input">
+			<input ng-model="create_project.name" type="text" placeholder="Project Name"></input>
+		</label>
+		<label class="item item-input">
+			<input ng-model="create_project.descr" type="text" placeholder="Project Description"></input>
+		</label>
+	</div>
 	</ion-content>
 	<div class="bar bar-footer bar-dark">
           <button class="button button-clear" ng-click="cancelCreateProject()"><i class="icon ion-close"></i></button>

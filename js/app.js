@@ -87,6 +87,11 @@ var app = angular.module('ionicApp', ['ionic'])
 			url: '/create_user',
                         templateUrl: 'templates/create_user.html',
                         controller: 'CreateUserCtrl'
+		})
+		.state('data',{
+			url: '/data',
+			templateUrl: 'templates/data.html',
+			controller:'DataCtrl'
 		});
 	$urlRouterProvider.otherwise('/login')
 	
@@ -114,6 +119,24 @@ var app = angular.module('ionicApp', ['ionic'])
 			}
 		});
 	})
+
+	app.controller('DataCtrl', function($scope, $ionicPopup, $state, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicScrollDelegate, createProjectService){
+
+		$scope.projects = null;
+
+                var request = $http({
+                        method: "post",
+                        url: 'http://sciencetap.us/ionic/getProjectsDataList.php',
+                        data:{  }
+                });
+                request.success(function(data){
+			
+                	$scope.projects = data.data;
+		});
+                request.error(function(data){
+                });	
+
+	});
 
 	app.controller('CreateProjectCtrl', function($scope, $ionicPopup, $state, $ionicLoading, $compile, $ionicModal, $ionicHistory, $http, $ionicScrollDelegate, createProjectService){
 
@@ -193,9 +216,8 @@ app.controller('MapCtrl', function($scope, $compile, $state, GoogleMaps, $http, 
 	
 	marker.content = "<div>";
 		 marker.content += "<h3>" + info.name + "</h3>" + " (" + info.lat + " , " + info.lon + ") ";
-		marker.content += "<div>" +  info.description + "</div>";
 		marker.content += "<div>";
-			marker.content += "<button class='button button-block button-royal' ng-click='submitData(" + info.project_uid+","+info.id+")'>Submit Data</button>";
+			marker.content += "<button class='button button-block button-royal' ng-click='submitData(" + info.project_uid+","+info.id+")'>Collect Data</button>";
 		marker.content += "</div>";
 	marker.content += "</div>";	
 	var compiled = $compile(marker.content)($scope);
@@ -529,7 +551,7 @@ app.controller('CreateSiteCtrl', function($scope, $ionicPopup, $state, $ionicLoa
 			console.log("New Site", site);	
 			console.log("Create Site Success");
 			$scope.current_project.sites.push(site);
-			$scope.allSites.push(site);
+			$scope.allSites.unshift(site);
 			$scope.addSites.push(site.id);
 			
 			//clear form
@@ -848,7 +870,10 @@ app.controller('CollectCtrl', function($scope, $state,  $ionicModal, $ionicHisto
                 }, function(err){
                         console.log("failed" + err);
                 });
-        }
+        };
+
+	$scope.drag = function(value) {
+	};
 
 	$scope.submitForm = function(data){
 		$scope.showSpinner();

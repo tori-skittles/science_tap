@@ -7,20 +7,21 @@
         </ion-header-bar>
 
         <ion-content>
+		<div style="padding-left: 10px; padding-right: 10px; padding-top: 10px">
+                        <button class="button button-block button-royal" ng-click="createForm()">Create Form</button>
+                </div>
 		<div class="list list-inset">
 			<div class="item item-divider">Select Existing</div>
 			<ion-checkbox ng-repeat="form in allForms" ng-model="form.checked" ng-checked="form.checked">{{ form.name }}</ion-checkbox>
 		</div>
 
-		<div style="padding: 10px">
-                        <button class="button button-block button-royal" ng-click="createForm()">Create Form</button>
-                </div>
-
 	</ion-content>
-        <div class="bar bar-footer bar-dark">
-          <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close red_me"></i></button>
-          <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark green_me"></i></button>
-        </div>
+	<ion-footer-bar>
+		<div class="bar bar-footer bar-dark">
+		  <button class="button button-clear" ng-click="cancelAdminEdits()"><i class="icon ion-close red_me"></i></button>
+		  <button class="button button-clear" ng-click="saveAdminEdits()"><i class="icon ion-checkmark green_me"></i></button>
+		</div>
+	</ion-footer-bar>
 </ion-view>
 
 
